@@ -1,0 +1,114 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: center;
+    color: #3b3858;
+}
+
+h1{
+    margin-bottom: 10px;
+}
+
+.container{
+    background-color: #fbfbfb;
+    width: 100%;
+    padding: 1em;
+}
+
+.flex{
+    direction: rtl;
+    margin-bottom: 2em;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.date{
+    font-style: italic;
+    margin: 0 auto;
+}
+
+.box{
+    margin: 1em;
+    padding: 0.4em;
+    border-radius: 8px;
+    min-width: 200px;
+    width: 100%;
+    font-size: 1.5em;
+}
+
+.card {
+    min-height: 10em;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 1em;
+    padding: 1em;
+    max-width: 80%;
+  }
+
+.card.info {
+    display: grid;
+    grid-template-columns: minmax(auto, 9em) 1fr;
+    justify-items: start;
+    align-items: center;
+    margin: 0.5em;
+}
+  
+.card.info > div {
+    max-width: 18rem;
+    background-color: #ada1e9;
+    border-radius: 50%;
+    transition: border-radius 300ms ease;
+}
+  
+.card.info > p {
+    font-size: 1.2em;
+    margin-left: 1em;
+}
+
+.date{
+    letter-spacing: 1px;
+}
+
+.warning{
+    margin: 1.5em 0;
+    font-style: italic;
+    font-size: 1.5em;
+}
+
+.box.confirmed{
+    border: 1px solid #f9d864;
+    background-color: #f9d864;
+}
+.box.recovered{
+    border: 1px solid #64ffc7;
+    background-color: #64ffc7;
+}
+.box.dead{
+    border: 1px solid #ff6496;
+    background-color: #ff6496;
+}
+
+.dropdown{
+    padding: 1em;
+    font-size: 1.2em;
+    width: 90%
+}
+
+@media screen and (min-width: 900px){
+    .flex{
+        flex-wrap: nowrap;
+    }
+
+    .dropdown{
+        width: 30%;
+    }
+
+    .box h3{
+        margin-top: 20px;
+    }
+
+    .card.info > div{
+        max-width: 7rem;
+    }
+}
