@@ -80,15 +80,6 @@ export default class App extends React.Component{
     }
 
     /* Rendering each country as a dropdown option*/
-    renderCountries(){
-        const sorted = this.state.countries.sort()
-        return sorted.map((country, i) =>
-            {return (
-            <option key={i} value={country}> {this.state.Arabized[i]} </option>
-            )}
-        )
-    }
-
     renderSearch(){
         var Arabic = this.state.Arabized;
         var English = this.state.countries;
