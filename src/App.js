@@ -7,6 +7,7 @@ import WashHands from './animation/washhands.json';
 import Isolate from './animation/isolate.json'
 import AvoidContact from './animation/avoidcontact.json'
 import ArCountries from './countries/countries.json'
+import Select from 'react-select'
 
 export default class App extends React.Component{
     constructor(props){
@@ -39,6 +40,7 @@ export default class App extends React.Component{
                 countries.push(resCountries.data.countries[k].iso2);
             }
         }
+        console.log(countries)
 
         this.setState({
             countries : countries
@@ -65,10 +67,10 @@ export default class App extends React.Component{
 
     /* Setting state for chosen country*/
     async getCountryData(event){
-        if (event.target.value ==="عالميًا"){
+        if (event === null){
             return this.getData()
         }
-        const res = await Axios.get(`https://covid19.mathdro.id/api/countries/${event.target.value}`)
+        const res = await Axios.get(`https://covid19.mathdro.id/api/countries/${event.value}`)
         this.setState({
             confirmed: res.data.confirmed.value,
             recovered: res.data.recovered.value,
@@ -87,15 +89,31 @@ export default class App extends React.Component{
         )
     }
 
+    renderSearch(){
+        var Arabic = this.state.Arabized;
+        var English = this.state.countries;
+        var options = []
+        for(var i = 0; i<Arabic.length;i++){
+            options.push({value: English[i], label: Arabic[i]})
+        }
+        return <Select
+            isRtl
+            isClearable
+            placeholder="عالميًا"
+            className="dropdown" 
+            options={options}
+            value={options.value}
+            onChange={this.getCountryData}
+        />
+    }
+
+
     /* Rendering main App*/
     render(){
         return (
         <div className="container">
-            <h1>اخر احصائيات فيروس الكورونا</h1>
-            <select className='dropdown' onChange={this.getCountryData}>
-                <option>عالميًا</option>
-                {this.renderCountries()}
-            </select>
+            <h1>اخر احصائيات فيروس الكورونا</h1>    
+                {this.renderSearch()}
             <div className='flex'>
                 <div className='box confirmed'>
                     <h2>الحالات المؤكدة</h2>
@@ -135,6 +153,7 @@ export default class App extends React.Component{
                     <Animation name="covermouth" data={CoverMouth} />
                 </div>
             </div>
+            <div className="warning thanks">هذا الموقع اهداء الى جميع الطواقم الطبية</div>
         </div>
         )
     }

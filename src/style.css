@@ -11,6 +11,7 @@ h1{
 }
 
 .container{
+    height: 100vh;
     background-color: #fbfbfb;
     width: 100%;
     padding: 1em;
@@ -90,9 +91,9 @@ h1{
 }
 
 .dropdown{
-    padding: 1em;
     font-size: 1.2em;
-    width: 90%
+    width: 90%;
+    margin: 0 auto;
 }
 
 @media screen and (min-width: 900px){
@@ -109,6 +110,6 @@ h1{
     }
 
     .card.info > div{
-        max-width: 7rem;
+        max-width: 12rem;
     }
 }
