@@ -16,6 +16,8 @@ export default class App extends React.Component{
                 confirmed: 0,
                 recovered: 0,
                 deaths: 0,
+                active: 0,
+                deathRatio: 0,
                 lastUpdated: null,
                 countries: [],
                 Arabized: []
@@ -40,7 +42,6 @@ export default class App extends React.Component{
                 countries.push(resCountries.data.countries[k].iso2);
             }
         }
-        console.log(countries)
 
         this.setState({
             countries : countries
@@ -60,9 +61,12 @@ export default class App extends React.Component{
             confirmed: resApi.data.confirmed.value,
             recovered: resApi.data.recovered.value,
             deaths: resApi.data.deaths.value, 
+            active: resApi.data.confirmed.value - resApi.data.recovered.value - resApi.data.deaths.value ,
+            deathRatio: ((resApi.data.deaths.value / resApi.data.confirmed.value) * 100),
             lastUpdated: resApi.data.lastUpdate,
             Arabized: Arabized,
         })
+        console.log(this.state.deathRatio)
     }
 
     /* Setting state for chosen country*/
@@ -75,8 +79,11 @@ export default class App extends React.Component{
             confirmed: res.data.confirmed.value,
             recovered: res.data.recovered.value,
             deaths: res.data.deaths.value,
+            active: res.data.confirmed.value - res.data.recovered.value - res.data.deaths.value,
+            deathRatio: ((res.data.deaths.value / res.data.confirmed.value) * 100),
             lastUpdated: res.data.lastUpdate
         })
+        console.log(this.state.deathRatio)
     }
 
     /* Rendering each country as a dropdown option*/
@@ -119,9 +126,18 @@ export default class App extends React.Component{
                     <h2>الحالات المؤكدة</h2>
                     <h3>{(this.state.confirmed).toLocaleString('ar-eg')}</h3>
                 </div>
+                <div className='box active'>
+                    <h2>الحالات النشطة</h2>
+                    <h3>{(this.state.active).toLocaleString('ar-eg')}</h3>
+                </div>
                 <div className='box recovered'>
                     <h2>حالات الشفاء</h2>
                     <h3>{(this.state.recovered).toLocaleString('ar-eg')}</h3>
+                </div>
+                
+                <div className='box death'>
+                    <h2>نسبة الوفيات</h2>
+                    <h3>%{(this.state.deathRatio).toLocaleString('ar-eg', { maximumSignificantDigits: 3 })}</h3>
                 </div>
                 <div className='box dead'>
                     <h2>الوفيات</h2>
@@ -153,7 +169,7 @@ export default class App extends React.Component{
                     <Animation name="covermouth" data={CoverMouth} />
                 </div>
             </div>
-            <div className="warning thanks">هذا الموقع اهداء الى جميع الطواقم الطبية</div>
+            
         </div>
         )
     }
