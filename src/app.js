@@ -51,10 +51,11 @@ export default class App extends React.Component{
         for(let j=0; j<this.state.countries.length;j++){
             for(let i=0; i<ArCountries.arcountries.length;i++){
                 if( ArCountries.arcountries[i].code !== undefined &&  ArCountries.arcountries[i].code === this.state.countries[j]){
-                Arabized.push(ArCountries.arcountries[i].name)
+                Arabized.push({value: this.state.countries[j], label: ArCountries.arcountries[i].name})
                 }
             }
         }
+        
 
         /* Setting global state and saving default data*/
         this.setState({
@@ -66,7 +67,7 @@ export default class App extends React.Component{
             lastUpdated: resApi.data.lastUpdate,
             Arabized: Arabized,
         })
-        console.log(this.state.deathRatio)
+        console.log(this.state.Arabized)
     }
 
     /* Setting state for chosen country*/
@@ -83,24 +84,17 @@ export default class App extends React.Component{
             deathRatio: ((res.data.deaths.value / res.data.confirmed.value) * 100),
             lastUpdated: res.data.lastUpdate
         })
-        console.log(this.state.deathRatio)
     }
 
     /* Rendering each country as a dropdown option*/
     renderSearch(){
-        var Arabic = this.state.Arabized;
-        var English = this.state.countries;
-        var options = []
-        for(var i = 0; i<Arabic.length;i++){
-            options.push({value: English[i], label: Arabic[i]})
-        }
         return <Select
             isRtl
             isClearable
             placeholder="عالميًا"
             className="dropdown" 
-            options={options}
-            value={options.value}
+            options={this.state.Arabized}
+            value={this.state.Arabized.value}
             onChange={this.getCountryData}
         />
     }
