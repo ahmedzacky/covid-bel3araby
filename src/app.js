@@ -67,7 +67,6 @@ export default class App extends React.Component{
             lastUpdated: resApi.data.lastUpdate,
             Arabized: Arabized,
         })
-        console.log(this.state.Arabized)
     }
 
     /* Setting state for chosen country*/
