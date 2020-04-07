@@ -53,11 +53,7 @@ h1{
     padding: 1em;
     max-width: 80%;
   }
-
-.line{
-    color: wheat;
-}
-
+  
 .card.info {
     display: grid;
     grid-template-columns: minmax(auto, 9em) 1fr;

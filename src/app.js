@@ -136,7 +136,7 @@ export default class App extends React.Component{
                 </div>
             </div>
             <div>   
-                    <p className="disclaimer">المعلومات اليومية موجودة اسفل الاحصائات الكلية</p>
+                    <p className="disclaimer"><FontAwesomeIcon icon={faSortUp} /> احصائات اليوم تنشر اسفل الاحصائات الكلية *</p>
                     <p className="disclaimer">اذا كانت تساوي صفر فهذا معناه ان احصائات اليوم لم تنشر بعد</p>
                     <p>اخر تحديث</p>
                     <p className="date">{(new Date(this.state.lastUpdated)).toLocaleString('ar-eg')}</p>
