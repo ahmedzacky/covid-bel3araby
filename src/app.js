@@ -8,6 +8,10 @@ import Isolate from './animation/isolate.json'
 import AvoidContact from './animation/avoidcontact.json'
 import ArCountries from './countries/countries.json'
 import Select from 'react-select'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSortUp } from "@fortawesome/free-solid-svg-icons";
+
+
 
 export default class App extends React.Component{
     constructor(props){
@@ -18,6 +22,8 @@ export default class App extends React.Component{
                 deaths: 0,
                 active: 0,
                 deathRatio: 0,
+                todayCases: 0,
+                todayDeath: 0,
                 lastUpdated: null,
                 countries: [],
                 Arabized: []
@@ -31,23 +37,21 @@ export default class App extends React.Component{
     }
 
     async getData(){
-        const resApi = await Axios.get('https://covid19.mathdro.id/api')
-        const resCountries = await Axios.get("https://covid19.mathdro.id/api/countries");
+        const resApi = await Axios.get('https://corona.lmao.ninja/all')
+        const resCountries = await Axios.get("https://corona.lmao.ninja/countries");
         const countries = [];
         const Arabized= [];
 
         /* Importing ISO2 country names */
-        for(let k = 0; k < resCountries.data.countries.length; k++){
-            if (resCountries.data.countries[k].iso2 !== undefined){
-                countries.push(resCountries.data.countries[k].iso2);
+        for(let k = 0; k < resCountries.data.length; k++){
+            if (resCountries.data[k].countryInfo.iso2 !== null){
+                countries.push(resCountries.data[k].countryInfo.iso2);
             }
         }
 
-        this.setState({
-            countries : countries
-        })
+        this.setState({countries : countries})
 
-        /* Arabization */
+        /* Arabization of country options */
         for(let j=0; j<this.state.countries.length;j++){
             for(let i=0; i<ArCountries.arcountries.length;i++){
                 if( ArCountries.arcountries[i].code !== undefined &&  ArCountries.arcountries[i].code === this.state.countries[j]){
@@ -55,19 +59,19 @@ export default class App extends React.Component{
                 }
             }
         }
-        
 
         /* Setting global state and saving default data*/
         this.setState({
-            confirmed: resApi.data.confirmed.value,
-            recovered: resApi.data.recovered.value,
-            deaths: resApi.data.deaths.value, 
-            active: resApi.data.confirmed.value - resApi.data.recovered.value - resApi.data.deaths.value ,
-            deathRatio: ((resApi.data.deaths.value / resApi.data.confirmed.value) * 100),
-            lastUpdated: resApi.data.lastUpdate,
+            confirmed: resApi.data.cases,
+            recovered: resApi.data.recovered,
+            deaths: resApi.data.deaths, 
+            active: resApi.data.active,
+            todayCases: resApi.data.todayCases,
+            todayDeath: resApi.data.todayDeaths,
+            deathRatio: ((resApi.data.deaths / resApi.data.cases) * 100),
+            lastUpdated: resApi.data.updated,
             Arabized: Arabized,
         })
-        console.log(this.state.Arabized)
     }
 
     /* Setting state for chosen country*/
@@ -75,15 +79,16 @@ export default class App extends React.Component{
         if (event === null){
             return this.getData()
         }
-        const res = await Axios.get(`https://covid19.mathdro.id/api/countries/${event.value}`)
+        const res = await Axios.get(`https://corona.lmao.ninja/countries/${event.value}`)
         this.setState({
-            confirmed: res.data.confirmed.value,
-            recovered: res.data.recovered.value,
-            deaths: res.data.deaths.value,
-            active: res.data.confirmed.value - res.data.recovered.value - res.data.deaths.value,
-            deathRatio: ((res.data.deaths.value / res.data.confirmed.value) * 100),
-            lastUpdated: res.data.lastUpdate
-        })
+            confirmed: res.data.cases,
+            recovered: res.data.recovered,
+            deaths: res.data.deaths, 
+            active: res.data.active,
+            todayCases: res.data.todayCases,
+            todayDeath: res.data.todayDeaths,
+            deathRatio: ((res.data.deaths / res.data.cases) * 100),
+            lastUpdated: res.data.updated,        })
     }
 
     /* Rendering each country as a dropdown option*/
@@ -98,8 +103,6 @@ export default class App extends React.Component{
             onChange={this.getCountryData}
         />
     }
-
-
     /* Rendering main App*/
     render(){
         return (
@@ -110,6 +113,7 @@ export default class App extends React.Component{
                 <div className='box confirmed'>
                     <h2>الحالات المؤكدة</h2>
                     <h3>{(this.state.confirmed).toLocaleString('ar-eg')}</h3>
+                    <h5>{(this.state.todayCases).toLocaleString('ar-eg')} <FontAwesomeIcon icon={faSortUp} /> </h5>
                 </div>
                 <div className='box active'>
                     <h2>الحالات النشطة</h2>
@@ -122,16 +126,20 @@ export default class App extends React.Component{
                 
                 <div className='box death'>
                     <h2>نسبة الوفيات</h2>
-                    <h3>%{(this.state.deathRatio).toLocaleString('ar-eg', { maximumSignificantDigits: 3 })}</h3>
+                    <h3>% {(this.state.deathRatio).toLocaleString('ar-eg',  { maximumSignificantDigits: 3 })} </h3>
+                    
                 </div>
                 <div className='box dead'>
                     <h2>الوفيات</h2>
                     <h3>{(this.state.deaths).toLocaleString('ar-eg')}</h3>
+                    <h5>{this.state.todayDeath.toLocaleString('ar-eg')} <FontAwesomeIcon icon={faSortUp} /> </h5>
                 </div>
             </div>
-            <div>
+            <div>   
+                    <p className="disclaimer">المعلومات اليومية موجودة اسفل الاحصائات الكلية</p>
+                    <p className="disclaimer">اذا كانت تساوي صفر فهذا معناه ان احصائات اليوم لم تنشر بعد</p>
                     <p>اخر تحديث</p>
-                    <p className="date">{new Date(this.state.lastUpdated).toLocaleString('ar-eg')}</p>
+                    <p className="date">{(new Date(this.state.lastUpdated)).toLocaleString('ar-eg')}</p>
             </div>
             <div className="warning">
             لا يوجد حاليًا لقاح للوقاية من فيروس الكورونا، يمكنك حماية نفسك والمساعدة في منع انتشار الفيروس للآخرين 
@@ -153,7 +161,7 @@ export default class App extends React.Component{
                     <p>اذا وجب عليك التواجد في اماكن مزدحمة، تأكد من وضع القناع الواقي</p>
                     <Animation name="covermouth" data={CoverMouth} />
                 </div>
-            </div>
+            </div> 
             
         </div>
         )
