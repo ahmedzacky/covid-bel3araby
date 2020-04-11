@@ -31,6 +31,7 @@ h1{
 }
 
 .box{
+    font-weight: 800;
     margin: 0.2em;
     margin-top: 0.5em;
     padding: 0.4em;
@@ -41,9 +42,9 @@ h1{
 }
 
 .disclaimer{
-    font-size: 1.4em;
+    font-size: 1.6em;
     font-weight: 600;
-    margin-bottom: 1em;
+    margin: 1em 0;
 }
 
 .card {
@@ -79,9 +80,9 @@ h1{
 }
 
 .warning{
-    margin: 1.5em 0;
+    margin: 0.2em 0;
     font-style: italic;
-    font-size: 1.5em;
+    font-size: 1.3em;
 }
 
 .box.confirmed{

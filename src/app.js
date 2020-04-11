@@ -9,8 +9,9 @@ import AvoidContact from './animation/avoidcontact.json'
 import ArCountries from './countries/countries.json'
 import Select from 'react-select'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSortUp } from "@fortawesome/free-solid-svg-icons";
-
+import { faSortUp } from "@fortawesome/free-solid-svg-icons"
+import {faGithub} from '@fortawesome/free-brands-svg-icons' 
+import UNflag from './countries/UNFlag.png'
 
 
 export default class App extends React.Component{
@@ -26,7 +27,8 @@ export default class App extends React.Component{
                 todayDeath: 0,
                 lastUpdated: null,
                 countries: [],
-                Arabized: []
+                Arabized: [],
+                flag: ''
             }
         this.getData = this.getData.bind(this)
         this.getCountryData = this.getCountryData.bind(this)
@@ -37,8 +39,8 @@ export default class App extends React.Component{
     }
 
     async getData(){
-        const resApi = await Axios.get('https://corona.lmao.ninja/all')
-        const resCountries = await Axios.get("https://corona.lmao.ninja/countries");
+        const resApi = await Axios.get('https://corona.lmao.ninja/v2/all')
+        const resCountries = await Axios.get("https://corona.lmao.ninja/v2/countries?sort=cases");
         const countries = [];
         const Arabized= [];
 
@@ -71,6 +73,7 @@ export default class App extends React.Component{
             deathRatio: ((resApi.data.deaths / resApi.data.cases) * 100),
             lastUpdated: resApi.data.updated,
             Arabized: Arabized,
+            flag: UNflag
         })
     }
 
@@ -79,7 +82,7 @@ export default class App extends React.Component{
         if (event === null){
             return this.getData()
         }
-        const res = await Axios.get(`https://corona.lmao.ninja/countries/${event.value}`)
+        const res = await Axios.get(`https://corona.lmao.ninja/v2/countries/${event.value}`)
         this.setState({
             confirmed: res.data.cases,
             recovered: res.data.recovered,
@@ -88,7 +91,8 @@ export default class App extends React.Component{
             todayCases: res.data.todayCases,
             todayDeath: res.data.todayDeaths,
             deathRatio: ((res.data.deaths / res.data.cases) * 100),
-            lastUpdated: res.data.updated,        })
+            lastUpdated: res.data.updated,
+            flag:res.data.countryInfo.flag})
     }
 
     /* Rendering each country as a dropdown option*/
@@ -107,41 +111,48 @@ export default class App extends React.Component{
     render(){
         return (
         <div className="container">
-            <h1>اخر احصائيات فيروس الكورونا</h1>    
-                {this.renderSearch()}
+                <a href="https://github.com/ahmedzacky/covid-bel3araby" style={{fontSize: "35px", float:"right"}}><FontAwesomeIcon icon={faGithub} /></a>
+            <h1><img src={this.state.flag} alt={""} style={{border:"2px solid black", borderRadius:"7px", maxHeight:"38px", maxWidth:"50px"}}/> اخر احصائيات فيروس الكورونا</h1>    
+            <div className="search-container" >
+            {this.renderSearch()}
+            </div>
+            
             <div className='flex'>
                 <div className='box confirmed'>
-                    <h2>الحالات المؤكدة</h2>
+                    <h2> الحالات المؤكدة</h2>
                     <h3>{(this.state.confirmed).toLocaleString('ar-eg')}</h3>
                     <h5>{(this.state.todayCases).toLocaleString('ar-eg')} <FontAwesomeIcon icon={faSortUp} /> </h5>
                 </div>
                 <div className='box active'>
-                    <h2>الحالات النشطة</h2>
+                    <h2> الحالات النشطة</h2>
                     <h3>{(this.state.active).toLocaleString('ar-eg')}</h3>
                 </div>
                 <div className='box recovered'>
-                    <h2>حالات الشفاء</h2>
+                    <h2> حالات الشفاء </h2>
                     <h3>{(this.state.recovered).toLocaleString('ar-eg')}</h3>
                 </div>
                 
                 <div className='box death'>
-                    <h2>نسبة الوفيات</h2>
+                    <h2> نسبة الوفيات  </h2>
                     <h3>% {(this.state.deathRatio).toLocaleString('ar-eg',  { maximumSignificantDigits: 3 })} </h3>
                     
                 </div>
                 <div className='box dead'>
-                    <h2>الوفيات</h2>
+                    <h2> الوفيات</h2>
                     <h3>{(this.state.deaths).toLocaleString('ar-eg')}</h3>
                     <h5>{this.state.todayDeath.toLocaleString('ar-eg')} <FontAwesomeIcon icon={faSortUp} /> </h5>
                 </div>
             </div>
+            
             <div>   
-                    <p className="disclaimer"><FontAwesomeIcon icon={faSortUp} /> احصائات اليوم تنشر اسفل الاحصائات الكلية *</p>
-                    <p className="disclaimer">اذا كانت تساوي صفر فهذا معناه ان احصائات اليوم لم تنشر بعد</p>
                     <p>اخر تحديث</p>
                     <p className="date">{(new Date(this.state.lastUpdated)).toLocaleString('ar-eg')}</p>
+                    <br/>
+                    <p className="warning"><FontAwesomeIcon icon={faSortUp} /> احصائات اليوم *</p>
+                    <p className="warning">من الوارد ان تكون أرقام اليوم لم تحدث بعد</p>
+                    
             </div>
-            <div className="warning">
+            <div className="disclaimer">
             لا يوجد حاليًا لقاح للوقاية من فيروس الكورونا، يمكنك حماية نفسك والمساعدة في منع انتشار الفيروس للآخرين 
             </div>
             <div className="flex">
@@ -150,7 +161,7 @@ export default class App extends React.Component{
                     <Animation name="avoidcontact" data={AvoidContact} />
                 </div>
                 <div className="card info">
-                    <p>اغسل يديك جيدا بالماء والصابون لمدة 20 ثانية</p>
+                    <p>اغسل يديك جيدا بالماء والصابون لمدة ٢٠ ثانية</p>
                     <Animation name="washhands" data={WashHands} />
                 </div>
                 <div className="card info">
