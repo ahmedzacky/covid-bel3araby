@@ -98,17 +98,18 @@ export default class App extends React.Component{
 
     /* Rendering each country as a dropdown option*/
     renderSearch(){
-        return( <div className="search-container">
-        {this.state.flag && <img className="flag" src={this.state.flag} alt="" />}
-         <Select
-            isRtl
-            isClearable
-            placeholder="عالميًا"
-            className="dropdown" 
-            options={this.state.Arabized}
-            value={this.state.Arabized.value}
-            onChange={this.getCountryData}
-        />
+        return( 
+        <div className="search-container">
+            {this.state.flag && <img className="flag" src={this.state.flag} alt="" />}
+            <Select
+                isRtl
+                isClearable
+                placeholder="عالميًا"
+                className="dropdown" 
+                options={this.state.Arabized}
+                value={this.state.Arabized.value}
+                onChange={this.getCountryData}
+            />
         </div>
         )}
     /* Rendering main App*/
@@ -118,40 +119,32 @@ export default class App extends React.Component{
             <a href="https://github.com/ahmedzacky/covid-bel3araby" style={{fontSize: "35px", float:"right"}}><FontAwesomeIcon icon={faGithub} /></a>
             <h1> اخر احصائيات فيروس الكورونا</h1>    
             {this.renderSearch()}
-            
-            
             <div className='flex'>
                 <div className='box confirmed'>
-                    {/* <img className="flag" src={this.state.flag} alt={""} style={{border:"2px solid black", borderRadius:"7px", maxHeight:"38px", maxWidth:"50px"}}/> */}
                     <h2>الحالات المؤكدة</h2>
                     <h3>{(this.state.confirmed).toLocaleString('ar-eg')}</h3>
                     <h5>{(this.state.todayCases).toLocaleString('ar-eg')} <FontAwesomeIcon icon={faSortUp} /> </h5>
                 </div>
                 <div className='box active'>
-                {/* <img className="flag" src={this.state.flag} alt={""} style={{border:"2px solid black", borderRadius:"7px", maxHeight:"38px", maxWidth:"50px"}}/> */}
                     <h2> الحالات النشطة</h2>
                     <h3>{(this.state.active).toLocaleString('ar-eg')}</h3>
                 </div>
                 <div className='box recovered'>
-                {/* <img className="flag" src={this.state.flag} alt={""} style={{border:"2px solid black", borderRadius:"7px", maxHeight:"38px", maxWidth:"50px"}}/> */}
                     <h2> حالات الشفاء </h2>
                     <h3>{(this.state.recovered).toLocaleString('ar-eg')}</h3>
                 </div>
                 
                 <div className='box death'>
-                {/* <img className="flag" src={this.state.flag} alt={""} style={{border:"2px solid black", borderRadius:"7px", maxHeight:"38px", maxWidth:"50px"}}/> */}
                     <h2> نسبة الوفيات  </h2>
                     <h3>% {(this.state.deathRatio).toLocaleString('ar-eg',  { maximumSignificantDigits: 3 })} </h3>
                     
                 </div>
                 <div className='box dead'>
-                {/* <img className="flag" src={this.state.flag} alt={""} style={{border:"2px solid black", borderRadius:"7px", maxHeight:"38px", maxWidth:"50px"}}/> */}
                     <h2> الوفيات</h2>
                     <h3>{(this.state.deaths).toLocaleString('ar-eg')}</h3>
                     <h5>{this.state.todayDeath.toLocaleString('ar-eg')} <FontAwesomeIcon icon={faSortUp} /> </h5>
                 </div>
             </div>
-            
             <div>   
                     <p>اخر تحديث</p>
                     <p className="date">{(new Date(this.state.lastUpdated)).toLocaleString('ar-eg')}</p>
