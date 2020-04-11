@@ -10,13 +10,12 @@ import ArCountries from './countries/countries.json'
 import Select from 'react-select'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSortUp } from "@fortawesome/free-solid-svg-icons"
-import {faGithub} from '@fortawesome/free-brands-svg-icons' 
-import UNflag from './countries/UNFlag.png'
-
+import {faGithub} from '@fortawesome/free-brands-svg-icons'
+import UNFlag from './countries/Flag_of_the_United_Nations.svg'
 
 export default class App extends React.Component{
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
             this.state = {
                 confirmed: 0,
                 recovered: 0,
@@ -36,6 +35,7 @@ export default class App extends React.Component{
 
     componentDidMount(){
         this.getData()
+        this.setState({flag: UNFlag})
     }
 
     async getData(){
@@ -73,7 +73,7 @@ export default class App extends React.Component{
             deathRatio: ((resApi.data.deaths / resApi.data.cases) * 100),
             lastUpdated: resApi.data.updated,
             Arabized: Arabized,
-            flag: UNflag
+            flag: UNFlag
         })
     }
 
@@ -92,12 +92,15 @@ export default class App extends React.Component{
             todayDeath: res.data.todayDeaths,
             deathRatio: ((res.data.deaths / res.data.cases) * 100),
             lastUpdated: res.data.updated,
-            flag:res.data.countryInfo.flag})
+            flag:res.data.countryInfo.flag
+        })
     }
 
     /* Rendering each country as a dropdown option*/
     renderSearch(){
-        return <Select
+        return( <div className="search-container">
+        {this.state.flag && <img className="flag" src={this.state.flag} alt="" />}
+         <Select
             isRtl
             isClearable
             placeholder="عالميًا"
@@ -106,38 +109,43 @@ export default class App extends React.Component{
             value={this.state.Arabized.value}
             onChange={this.getCountryData}
         />
-    }
+        </div>
+        )}
     /* Rendering main App*/
     render(){
         return (
         <div className="container">
-                <a href="https://github.com/ahmedzacky/covid-bel3araby" style={{fontSize: "35px", float:"right"}}><FontAwesomeIcon icon={faGithub} /></a>
-            <h1><img src={this.state.flag} alt={""} style={{border:"2px solid black", borderRadius:"7px", maxHeight:"38px", maxWidth:"50px"}}/> اخر احصائيات فيروس الكورونا</h1>    
-            <div className="search-container" >
+            <a href="https://github.com/ahmedzacky/covid-bel3araby" style={{fontSize: "35px", float:"right"}}><FontAwesomeIcon icon={faGithub} /></a>
+            <h1> اخر احصائيات فيروس الكورونا</h1>    
             {this.renderSearch()}
-            </div>
+            
             
             <div className='flex'>
                 <div className='box confirmed'>
-                    <h2> الحالات المؤكدة</h2>
+                    {/* <img className="flag" src={this.state.flag} alt={""} style={{border:"2px solid black", borderRadius:"7px", maxHeight:"38px", maxWidth:"50px"}}/> */}
+                    <h2>الحالات المؤكدة</h2>
                     <h3>{(this.state.confirmed).toLocaleString('ar-eg')}</h3>
                     <h5>{(this.state.todayCases).toLocaleString('ar-eg')} <FontAwesomeIcon icon={faSortUp} /> </h5>
                 </div>
                 <div className='box active'>
+                {/* <img className="flag" src={this.state.flag} alt={""} style={{border:"2px solid black", borderRadius:"7px", maxHeight:"38px", maxWidth:"50px"}}/> */}
                     <h2> الحالات النشطة</h2>
                     <h3>{(this.state.active).toLocaleString('ar-eg')}</h3>
                 </div>
                 <div className='box recovered'>
+                {/* <img className="flag" src={this.state.flag} alt={""} style={{border:"2px solid black", borderRadius:"7px", maxHeight:"38px", maxWidth:"50px"}}/> */}
                     <h2> حالات الشفاء </h2>
                     <h3>{(this.state.recovered).toLocaleString('ar-eg')}</h3>
                 </div>
                 
                 <div className='box death'>
+                {/* <img className="flag" src={this.state.flag} alt={""} style={{border:"2px solid black", borderRadius:"7px", maxHeight:"38px", maxWidth:"50px"}}/> */}
                     <h2> نسبة الوفيات  </h2>
                     <h3>% {(this.state.deathRatio).toLocaleString('ar-eg',  { maximumSignificantDigits: 3 })} </h3>
                     
                 </div>
                 <div className='box dead'>
+                {/* <img className="flag" src={this.state.flag} alt={""} style={{border:"2px solid black", borderRadius:"7px", maxHeight:"38px", maxWidth:"50px"}}/> */}
                     <h2> الوفيات</h2>
                     <h3>{(this.state.deaths).toLocaleString('ar-eg')}</h3>
                     <h5>{this.state.todayDeath.toLocaleString('ar-eg')} <FontAwesomeIcon icon={faSortUp} /> </h5>
@@ -156,19 +164,19 @@ export default class App extends React.Component{
             لا يوجد حاليًا لقاح للوقاية من فيروس الكورونا، يمكنك حماية نفسك والمساعدة في منع انتشار الفيروس للآخرين 
             </div>
             <div className="flex">
-                <div className="card info">
+                <div className="card-info">
                     <p>تجنب المصافحة و حافظ على مسافه امنه بينك وبين الأشخاص</p>
                     <Animation name="avoidcontact" data={AvoidContact} />
                 </div>
-                <div className="card info">
+                <div className="card-info">
                     <p>اغسل يديك جيدا بالماء والصابون لمدة ٢٠ ثانية</p>
                     <Animation name="washhands" data={WashHands} />
                 </div>
-                <div className="card info">
+                <div className="card-info">
                     <p>ابقى بالمنزل واعزل نفسك اذا شعرت بأعراض المرض</p>
                     <Animation name="isolate" data={Isolate} />
                 </div>
-                <div className="card info">
+                <div className="card-info">
                     <p>اذا وجب عليك التواجد في اماكن مزدحمة، تأكد من وضع القناع الواقي</p>
                     <Animation name="covermouth" data={CoverMouth} />
                 </div>

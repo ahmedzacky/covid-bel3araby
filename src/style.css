@@ -11,7 +11,6 @@ h1{
 }
 
 .container{
-    height: 100vh;
     background-color: #fbfbfb;
     width: 100%;
     padding: 1em;
@@ -41,36 +40,34 @@ h1{
     font-size: 1.5em;
 }
 
+
 .disclaimer{
     font-size: 1.6em;
     font-weight: 600;
     margin: 1em 0;
 }
-
-.card {
-    min-height: 10em;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 1em;
-    padding: 1em;
-    max-width: 80%;
-  }
   
-.card.info {
+.card-info {
     display: grid;
     grid-template-columns: minmax(auto, 9em) 1fr;
     justify-items: start;
     align-items: center;
     margin: 0.5em;
+    min-height: 10em;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 1em;
+    padding: 1em;
+    max-width: 80%;
 }
   
-.card.info > div {
+.card-info > div {
     max-width: 18rem;
     background-color: #ada1e9;
     border-radius: 50%;
     transition: border-radius 300ms ease;
 }
   
-.card.info > p {
+.card-info > p {
     font-size: 1.2em;
     margin-left: 1em;
 }
@@ -86,19 +83,15 @@ h1{
 }
 
 .box.confirmed{
-    border: 1px solid #f9d864;
     background-color: #f9d864;
 }
 .box.active{
-    border: 1px solid #64fff2;
     background-color: #64fff2;
 }
 .box.recovered{
-    border: 1px solid #64ffc7;
     background-color: #64ffc7;
 }
 .box.dead{
-    border: 1px solid #FF6496;
     background-color: #FF6496;
 }
 .box.death{
@@ -106,33 +99,55 @@ h1{
     background-color: orange;
 }
 
+.search-container{
+    width: 100%;
+    position: relative;
+}
+
+.flag{
+    position: absolute;
+    left: 0;
+    width: 20%;
+    border:2px solid black;
+    border-radius:7px;
+    max-width: 50px;
+    max-height: 38px;
+}
 
 .dropdown{
     font-size: 1.2em;
-    width: 90%;
-    margin: auto;
+    width: 80%;
+    margin: 0 auto;
     font-family:sans-serif ;
+    margin-right: 0.2em ;
 }
 
-@media screen and (min-width: 900px){
+@media screen and (min-width: 1200px){
     h1{
         font-size: 300%;
-        margin-bottom: 0.2em;
+        margin-bottom: 0.2em; 
     }
     .flex{
         flex-wrap: nowrap;
-    }
-
-    .dropdown{
-        margin: auto;
-        width: 25%;
     }
 
     .box h3{
         margin-top: 20px;
     }
 
-    .card.info > div{
+    .card-info > div{
         max-width: 12rem;
     }
+    
+    .search-container{
+        width: 25%;
+        margin: auto;
+    }
+}
+
+@media screen and (min-width: 1920px){
+    .search-container .dropdown{
+        margin-right: 1.5em;
+    }
+
 }
