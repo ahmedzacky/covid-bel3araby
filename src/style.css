@@ -107,11 +107,11 @@ h1{
 .flag{
     position: absolute;
     left: 0;
-    width: 20%;
     border:2px solid black;
     border-radius:7px;
     max-width: 50px;
-    max-height: 38px;
+    height: 38px;
+
 }
 
 .dropdown{
