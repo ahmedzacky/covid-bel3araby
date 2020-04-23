@@ -17,45 +17,48 @@ export default class App extends Component{
     constructor(){
         super();
             this.state = {
-                countryData: {},
-                Arabized: [],
+                countryData: {updated:0,cases:0, todayCases:0, deaths:0, todayDeaths:0, recovered:0, active:0},
+                Arabized: []
             }
         this.getCountryData = this.getCountryData.bind(this)
     }
 
-    componentDidMount(){ this.getData() } 
+    componentDidMount(){ this.getData(); this.setArabized() }
 
-    async getData(){
+    /* Setting worldwide (default) state*/
+     async getData(){
         const resApi = await Axios.get('https://corona.lmao.ninja/v2/all')
-        const resCountries = await Axios.get("https://corona.lmao.ninja/v2/countries?sort=cases");
+        this.setState({ countryData : resApi.data })
+    }
+    
+    /*Arabizing country names*/
+    async setArabized(){
+        const resCountries = await Axios.get("https://corona.lmao.ninja/v2/countries?sort=deaths");
         const countries = [];
         const Arabized= [];
 
         /* Importing ISO2 country names */
         for(let k = 0; k < resCountries.data.length; k++){
-            if (resCountries.data[k].countryInfo.iso2 !== null){
+            if (resCountries.data[k].countryInfo.iso2){
                 countries.push(resCountries.data[k].countryInfo.iso2);
             }
         }
 
-        /* Arabization of country options */
+        /* Arabization of countries as options */
         for(let j=0; j<countries.length;j++){
             for(let i=0; i<ArCountries.arcountries.length;i++){
-                if( ArCountries.arcountries[i].code !== undefined &&  ArCountries.arcountries[i].code === countries[j]){
+                if(ArCountries.arcountries[i].code === countries[j]){
                 Arabized.push({value: countries[j], label: ArCountries.arcountries[i].name})
                 }
             }
         }
-
-        /* Setting global state and saving default data*/
-        this.setState({ countryData : resApi.data, Arabized })
-
+        this.setState({ Arabized })
     }
 
 
     /* Setting state for chosen country*/
     async getCountryData(event){
-        if (event === null) return this.getData()
+        if (!event) return this.getData()
         const res = await Axios.get(`https://corona.lmao.ninja/v2/countries/${event.value}`)
         this.setState({ countryData : res.data })
     }
@@ -83,40 +86,41 @@ export default class App extends Component{
 
     /* Rendering main App*/
     render(){
-        const deathRatio = (this.state.countryData.deaths / this.state.countryData.cases)*100 ;
+        let deathRatio = 0
+        deathRatio = this.state.countryData.deaths && (this.state.countryData.deaths / this.state.countryData.cases)*100 ;
         return (
         <div className="container">
-            <a href="https://github.com/ahmedzacky/covid-bel3araby" style={{fontSize: "35px", float:"right"}}><FontAwesomeIcon icon={faGithub} /></a>
+            <a href="https://github.com/ahmedzacky/covid-bel3araby" className="github"><FontAwesomeIcon icon={faGithub} /></a>
             <h1> اخر احصائيات فيروس الكورونا</h1>    
             {this.renderSearch()}
             <div className='flex'>
                 <div className='box confirmed'>
                     <h2>الحالات المؤكدة</h2>
-                    <h3>{this.state.countryData.cases && this.state.countryData.cases.toLocaleString('ar-eg')}</h3>
-                    <h5>{this.state.countryData.todayCases? this.state.countryData.todayCases.toLocaleString('ar-eg'): "۰"} <FontAwesomeIcon icon={faSortUp}/></h5>
+                    <h3>{this.state.countryData.cases.toLocaleString('ar-eg')}</h3>
+                    <h5>{this.state.countryData.todayCases.toLocaleString('ar-eg')} <FontAwesomeIcon icon={faSortUp}/></h5>
                 </div>
                 <div className='box active'>
                     <h2> الحالات النشطة</h2>
-                    <h3>{this.state.countryData.active && this.state.countryData.active.toLocaleString('ar-eg')}</h3>
+                    <h3>{this.state.countryData.active.toLocaleString('ar-eg')}</h3>
                 </div>
                 <div className='box recovered'>
                     <h2> حالات الشفاء </h2>
-                    <h3>{this.state.countryData.recovered && this.state.countryData.recovered.toLocaleString('ar-eg')}</h3>
+                    <h3>{this.state.countryData.recovered.toLocaleString('ar-eg')}</h3>
                 </div>
                 <div className='box death'>
                     <h2> نسبة الوفيات  </h2>
-                    <h3>٪ {!isNaN(deathRatio) && deathRatio.toLocaleString('ar-eg',  {maximumSignificantDigits: 3})} </h3> 
+                    <h3>٪ {deathRatio.toLocaleString('ar-eg',  {maximumSignificantDigits: 3})} </h3> 
                     
                 </div>
                 <div className='box dead'>
                     <h2> الوفيات</h2>
-                    <h3>{this.state.countryData.deaths && this.state.countryData.deaths.toLocaleString('ar-eg')}</h3>
-                    <h5>{this.state.countryData.todayDeaths? this.state.countryData.todayDeaths.toLocaleString('ar-eg'): "۰"} <FontAwesomeIcon icon={faSortUp} /> </h5>
+                    <h3>{this.state.countryData.deaths.toLocaleString('ar-eg')}</h3>
+                    <h5>{this.state.countryData.todayDeaths.toLocaleString('ar-eg')} <FontAwesomeIcon icon={faSortUp} /> </h5>
                 </div>
             </div>
             <div>   
                     <p>اخر تحديث</p>
-                    <p className="date">{this.state.countryData.updated && (new Date(this.state.countryData.updated)).toLocaleString('ar-eg')}</p>
+                    <p className="date">{new Date(this.state.countryData.updated).toLocaleString('ar-eg')}</p>
                     <br/>
                     <p className="warning"><FontAwesomeIcon icon={faSortUp} /> احصائات اليوم *</p>
                     <p className="warning">من الوارد ان تكون أرقام اليوم لم تحدث بعد</p>
