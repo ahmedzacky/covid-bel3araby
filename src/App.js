@@ -5,8 +5,7 @@ import { Confirmed, Active, Recovered, DeathRatio, Deaths } from './components/S
 import Disclaimer from "./components/Disclaimer";
 import Cards from "./components/Cards";
 import SearchCountries from "./components/SearchCountries"
-import Head from "./components/Head";
-
+import Header from "./components/Theme/Header";
 
 const App = () => {
     const [countryData, setcountryData] = useState({updated:0,cases:0, todayCases:0, deaths:0, todayDeaths:0, recovered:0, active:0});
@@ -54,7 +53,7 @@ const App = () => {
         const res = await Axios.get(`https://corona.lmao.ninja/v2/countries/${event.value}`)
         setcountryData(res.data)
         } else {
-            getGlobalData()
+        getGlobalData()
         }
     }
 
@@ -62,22 +61,23 @@ const App = () => {
     deathRatio = countryData.deaths && (countryData.deaths / countryData.cases) * 100 ;
 
     return (
-        
-        <div className="container">
-            <br></br>
-            <Head/>
-            <SearchCountries countryData={countryData} Arabized={Arabized} getCountryData={getCountryData}/>
-            <div className='flex'>
-                <Confirmed cases={countryData.cases} todayCases={countryData.todayCases} />
-                <Active active={countryData.active} />
-                <Recovered recovered={countryData.recovered} />
-                <DeathRatio deathRatio={deathRatio} />
-                <Deaths deaths={countryData.deaths} todayDeaths={countryData.todayDeaths} />
+        <body>
+            <div className="container">
+                <Header/>
+                <SearchCountries countryData={countryData} Arabized={Arabized} getCountryData={getCountryData}/>
+                <div className='flex'>
+                    <Confirmed cases={countryData.cases} todayCases={countryData.todayCases} />
+                    <Active active={countryData.active} />
+                    <Recovered recovered={countryData.recovered} />
+                    <DeathRatio deathRatio={deathRatio} />
+                    <Deaths deaths={countryData.deaths} todayDeaths={countryData.todayDeaths} />
+                </div>
+                <Disclaimer updated={countryData.updated} /> 
+                <Cards />    
             </div>
-            <Disclaimer updated={countryData.updated} /> 
-            <Cards />     
-        </div>
-        )
+        </body>
+    )
 }
+
 
 export default App

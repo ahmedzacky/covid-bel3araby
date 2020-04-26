@@ -1,9 +1,14 @@
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body{
+    transition: background 300ms ease-in, color 325ms ease-in;
     text-align: center;
-    color: #3b3858;
+
 }
 
 h1{
@@ -12,11 +17,10 @@ h1{
 
 .github{
     font-size: 35px;
-    float: right;
+    
 }
 
 .container{
-    background-color: #fbfbfb;
     width: 100%;
     padding: 1em;
     height: 100vh;
@@ -36,6 +40,7 @@ h1{
 }
 
 .box{
+    color: #3b3858;
     font-weight: 800;
     margin: 0.2em;
     margin-top: 0.5em;
@@ -46,6 +51,16 @@ h1{
     font-size: 1.5em;
 }
 
+.btn.svg {
+    float: right;
+    background: none;
+    border: none;
+}
+  
+  .btn.svg > svg {
+    width: 2rem;
+    height: 2rem;
+}
 
 .disclaimer{
     font-size: 1.6em;
@@ -120,6 +135,7 @@ h1{
 }
 
 .dropdown{
+    color: #27253B;
     font-size: 1.2em;
     width: 80%;
     margin: 0 auto;
