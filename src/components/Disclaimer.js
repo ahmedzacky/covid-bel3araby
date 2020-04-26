@@ -2,11 +2,11 @@ import React from 'react'
 import { faSortUp } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const Disclaimer = (props) => (
+const Disclaimer = ({updated}) => (
     <div>
         <div>   
             <p>اخر تحديث</p>
-            <p className="date">{new Date(props.updated).toLocaleString('ar-eg')}</p>
+            <p className="date">{new Date(updated).toLocaleString('ar-eg')}</p>
             <br/>
             <p className="warning"><FontAwesomeIcon icon={faSortUp} /> احصائات اليوم *</p>
             <p className="warning">من الوارد ان تكون أرقام اليوم لم تحدث بعد</p>
