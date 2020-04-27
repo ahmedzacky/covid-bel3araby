@@ -4,7 +4,7 @@ import {Moon, Sun} from './Icons'
 
 const GlobalStyle = createGlobalStyle
 `
-.container{
+body{
     background-color: ${props => props.theme.mode==='dark' ? '#27253B': '#fbfbfb'};
     color: ${props => props.theme.mode==='dark' ? '#fbfbfb': '#3b3858'};
 }

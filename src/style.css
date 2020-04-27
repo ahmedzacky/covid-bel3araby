@@ -15,11 +15,6 @@ h1{
     margin-bottom: 0.5em;
 }
 
-.github{
-    font-size: 35px;
-    
-}
-
 .container{
     width: 100%;
     padding: 1em;
@@ -57,7 +52,7 @@ h1{
     border: none;
 }
   
-  .btn.svg > svg {
+.btn.svg > svg {
     width: 2rem;
     height: 2rem;
 }
