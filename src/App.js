@@ -7,6 +7,7 @@ import Cards from "./components/Cards";
 import SearchCountries from "./components/SearchCountries"
 import Header from "./components/Theme/Header";
 
+
 const App = () => {
     const [countryData, setcountryData] = useState({updated:0,cases:0, todayCases:0, deaths:0, todayDeaths:0, recovered:0, active:0});
     const [Arabized, setArabized] = useState([]);
