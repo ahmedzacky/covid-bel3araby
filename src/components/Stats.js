@@ -29,7 +29,7 @@ export const Recovered = ({recovered}) => {
     return(
     <div data-aos-duration="750" data-aos="fade-right" className='box recovered'>
     <h2>حالات الشفاء</h2>
-    <h3>{recovered? recovered.toLocaleString('ar-eg'): "لم تعلن بعد"}</h3>
+    <h3>{recovered? recovered.toLocaleString('ar-eg') : "لم تعلن بعد"}</h3>
     </div>
     )
 }
