@@ -16,6 +16,16 @@ const SearchCountries = ({Arabized, countryData, getCountryData}) => (
             options={Arabized}
             value={Arabized.value}
             onChange={getCountryData}
+            theme={
+                theme => 
+            ({
+                ...theme,
+                colors: {
+                    ...theme.colors,
+                    neutral50: '#1a1a1a',
+                },
+            })
+            }
         />
     </div>
 )
