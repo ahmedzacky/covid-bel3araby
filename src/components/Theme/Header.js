@@ -5,24 +5,24 @@ import {Moon, Sun} from './Icons'
 const GlobalStyle = createGlobalStyle
 `
 body{
-    background-color: ${props => props.theme.mode==='dark' ? '#27253B': '#fbfbfb'};
-    color: ${props => props.theme.mode==='dark' ? '#fbfbfb': '#3b3858'};
+    background-color: ${props => props.theme.darkMode? '#27253B': '#fbfbfb'};
+    color: ${props => props.theme.darkMode? '#fbfbfb': '#3b3858'};
 }
 .card-info {
-    background-color: ${props => props.theme.mode==='dark' ? '#3B3858': '#fbfbfb'};
+    background-color: ${props => props.theme.darkMode? '#3B3858': '#fbfbfb'};
 }
 `
 
 const Header = () => {
-    const [theme, setTheme] = useState({mode: 'dark'})
+    const [theme, setTheme] = useState({darkMode: true})
     return (
     <ThemeProvider theme={theme}>
         <GlobalStyle/>
         <button
             className="btn svg"
-            onClick={() => setTheme(theme.mode === 'light'? {mode:'dark'} : {mode:'light'})}
+            onClick={() => setTheme(theme.darkMode === false? {darkMode: true} : {darkMode:false})}
         >
-            {theme.mode==="light"?
+            {theme.darkMode===false?
             <Moon /> : 
             <Sun /> }
         </button>

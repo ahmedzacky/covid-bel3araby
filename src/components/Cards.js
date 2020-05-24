@@ -8,7 +8,7 @@ import Aos from 'aos'
 import "aos/dist/aos.css"
 
 const Cards = () => {
-    useEffect(() => Aos.init({duration: 1000}) , [])
+    useEffect(() => Aos.init() , [])
     return(
         <div className="flex">
         <div data-aos="fade-up" className="card-info">

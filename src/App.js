@@ -62,7 +62,7 @@ const App = () => {
     deathRatio = countryData.deaths && (countryData.deaths / countryData.cases) * 100 ;
 
     return (
-        <body>
+        <div>
             <div className="container">
                 <Header/>
                 <SearchCountries countryData={countryData} Arabized={Arabized} getCountryData={getCountryData}/>
@@ -76,7 +76,7 @@ const App = () => {
                 <Disclaimer updated={countryData.updated} /> 
                 <Cards />    
             </div>
-        </body>
+        </div>
     )
 }
 
