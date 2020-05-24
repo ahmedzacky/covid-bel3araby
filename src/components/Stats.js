@@ -11,7 +11,7 @@ export const Confirmed = ({cases, todayCases}) =>{
         <div data-aos-duration="250" data-aos="fade-right" className='box confirmed'>
         <h2>الحالات المؤكدة</h2>
         <h3>{cases.toLocaleString('ar-eg')}</h3>
-        <h5>{todayCases? todayCases.toLocaleString('ar-eg') : "۰"} <FontAwesomeIcon icon={faSortUp}/></h5>
+        <h5>{todayCases.toLocaleString('ar-eg')} <FontAwesomeIcon icon={faSortUp}/></h5>
         </div>
     )
 }
@@ -48,7 +48,7 @@ export const Deaths = ({deaths, todayDeaths}) => {
     <div data-aos-duration="1250" data-aos="fade-right" className='box dead'>
         <h2>الوفيات</h2>
         <h3>{deaths.toLocaleString('ar-eg')}</h3>
-        <h5>{todayDeaths? todayDeaths.toLocaleString('ar-eg'): "۰" } <FontAwesomeIcon icon={faSortUp}/></h5>
+        <h5>{todayDeaths.toLocaleString('ar-eg')} <FontAwesomeIcon icon={faSortUp}/></h5>
     </div>
     )
 }
