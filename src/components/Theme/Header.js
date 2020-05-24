@@ -19,6 +19,7 @@ const Header = () => {
     <ThemeProvider theme={theme}>
         <GlobalStyle/>
         <button
+            aria-label="mode toggle"
             className="btn svg"
             onClick={() => setTheme(theme.darkMode === false? {darkMode: true} : {darkMode:false})}
         >
