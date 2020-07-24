@@ -5,7 +5,7 @@ import Select from 'react-select'
 const SearchCountries = ({Arabized, countryData, getCountryData}) => (
     <div className="search-container">
         {countryData.countryInfo ? <img className="flag" src={countryData.countryInfo.flag} alt=""/> : <img className="flag" src={UNFlag} alt=""/> }
-        <label style={{display: "none"}} for="form">Form label for perfomance sake</label>
+        <label style={{display: "none"}} for="form">Form label for perfomance</label>
         <Select
             aria-label="align center"
             isRtl
@@ -16,15 +16,13 @@ const SearchCountries = ({Arabized, countryData, getCountryData}) => (
             options={Arabized}
             value={Arabized.value}
             onChange={getCountryData}
-            theme={theme => 
-            ({
+            theme={theme => ({
                 ...theme,
                 colors: {
                     ...theme.colors,
                     neutral50: '#1a1a1a',
                 },
-            })
-            }
+            })}
         />
     </div>
 )
